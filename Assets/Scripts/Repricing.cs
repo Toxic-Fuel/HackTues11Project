@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class Repricing : MonoBehaviour
 {
-    public TrackingFinances tf;
-    float inflation = 0.5f;
-    void Reprice()
+    public void Reprice(float price, int numPurchases, float percentInflationPerPurchase)
     {
-        
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        price *= 1 + (numPurchases * percentInflationPerPurchase);
     }
 }
