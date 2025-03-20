@@ -79,6 +79,17 @@ public class DeliveryLogic : MonoBehaviour
         if (pickUpPoint.GetItemCount() > 0)
         {
             grabbedItem = pickUpPoint.GetItem();
+            try
+            {
+                pickUpPoint.RemoveItem(grabbedItem);
+                grabbedItem.transform.parent = transform;
+                grabbedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+            }
+            catch
+            {
+                Debug.Log("Unsuccessful grab for " + name);
+                yield break;
+            }
             Debug.Log(name + " picked up an item");
         }
         else
@@ -95,6 +106,25 @@ public class DeliveryLogic : MonoBehaviour
         {
             yield return null;
         }
+
+        //put down
+        try 
+        {
+            putDownPoint.AddItem(grabbedItem.gameObject);
+        }
+        catch
+        {
+            grabbedItem.transform.parent = null;
+            grabbedItem = null;
+            Debug.Log("Bot " + name + " failed at dropping");
+            yield break;
+        }
+
+        yield return null;
+
+        
+
+
 
 
 
