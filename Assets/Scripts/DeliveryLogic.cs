@@ -7,15 +7,19 @@ public class DeliveryLogic : MonoBehaviour
 {
     public StoragePoint PickUpPlace;
     public StoragePoint PutDownPlace;
+    public StoragePoint ShopPlace;
+    public StoragePoint LandfillPlace;
     public string currentTask;
     public float Salary = 1000f;
     public Human human;
+    public TrackingFinances trackingFinances;
 
     NavMeshAgent navAgent;
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
         ChooseTask(currentTask);
+        trackingFinances = GameObject.Find("DailyFinanceTracker").GetComponent<TrackingFinances>();
     }
     
     // Update is called once per frame
@@ -31,7 +35,7 @@ public class DeliveryLogic : MonoBehaviour
                 Deliver();
                 break;
             case "FreeTime":
-
+                FreeTime();
                 break;
         }
     }
@@ -65,17 +69,59 @@ public class DeliveryLogic : MonoBehaviour
         PickUpPlace = availablePickUpPoints[Random.Range(0, availablePickUpPoints.Count)];
         PutDownPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
         Debug.Log(name + " Filtered");
-        StartCoroutine(Transfer(PickUpPlace, PutDownPlace));
+        StartCoroutine(Transfer(PickUpPlace, PutDownPlace, false));
 
         
 
     }
     void FreeTime()
     {
+        //find available storages
+        List<StoragePoint> availableShopPoints = new List<StoragePoint>();
+        List<StoragePoint> availableDropOffPoints = new List<StoragePoint>();
+        GameObject[] ObjsContainingTagShop = GameObject.FindGameObjectsWithTag("shop");
+        GameObject[] ObjsContainingTagLandfill = GameObject.FindGameObjectsWithTag("landfill");
 
+        //check if points are taken already
+        foreach (GameObject obj in ObjsContainingTagShop)
+        {
+            StoragePoint curStorage = obj.GetComponent<StoragePoint>();
+            if (curStorage.GetWorker() == null)
+            {
+                availableShopPoints.Add(curStorage);
+            }
+        }
+        foreach (GameObject obj in ObjsContainingTagLandfill)
+        {
+            StoragePoint curStorage = obj.GetComponent<StoragePoint>();
+            if (curStorage.GetWorker() == null)
+            {
+                availableDropOffPoints.Add(curStorage);
+            }
+        }
+        //assign the 2 points
+        ShopPlace = availableShopPoints[Random.Range(0, availableShopPoints.Count)];
+        LandfillPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
+        Debug.Log(name + " Filtered");
+        Decision decision = new Decision();
+
+        
+        int index = Random.Range(0, trackingFinances.products.Count);
+        //decide if should buy
+        if(decision.ShouldBuyProduct(human.wallet.GetBalance(), human.greediness, trackingFinances.products[index].Price))
+        {
+            human.wallet.RemoveMoney(trackingFinances.products[index].Price);
+            trackingFinances.ModifyProduct(index, trackingFinances.products[index].Price, trackingFinances.products[index].NumberOfTimesSold + 1);
+            StartCoroutine(Transfer(ShopPlace, LandfillPlace, true));
+        }
+        else
+        {
+            ChooseTask("Deliver");
+        }
+        
     }
     //Transfer process
-    private IEnumerator Transfer(StoragePoint pickUpPoint, StoragePoint putDownPoint)
+    private IEnumerator Transfer(StoragePoint pickUpPoint, StoragePoint putDownPoint, bool oneTimeOnly)
     {
         //go to pickup point
         navAgent.SetDestination(pickUpPoint.gameObject.transform.position);
@@ -107,6 +153,15 @@ public class DeliveryLogic : MonoBehaviour
         else
         {
             Debug.Log("Pick up point has no items for: " + name);
+            if (oneTimeOnly)
+            {
+                ChooseTask("Deliver");
+            }
+            else
+            {
+                ChooseTask("FreeTime");
+            }
+                
             yield break;
         }
         
@@ -135,14 +190,18 @@ public class DeliveryLogic : MonoBehaviour
 
         //starts coroutine again - needs a chance to rest
         human.wallet.AddMoney(Salary);
-        //if(Random.Range(0, 1) > human.laziness)
-        //{
-           StartCoroutine(Transfer(pickUpPoint, putDownPoint));
-        //}
-        //else
-        //{
-        //    ChooseTask("FreeTime");
-        //}
+        if (oneTimeOnly)
+        {
+            ChooseTask("Deliver");
+        }
+        if(Random.Range(0, 1) > human.laziness)
+        {
+           StartCoroutine(Transfer(pickUpPoint, putDownPoint, false));
+        }
+        else
+        {
+           ChooseTask("FreeTime");
+        }
         
         yield return null;
 

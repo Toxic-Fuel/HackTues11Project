@@ -5,17 +5,14 @@ using UnityEngine;
 public class Decision : MonoBehaviour
 {
     public TrackingFinances trackingFinances;
-    Product desired_product;
+    
 
-    void Assign()
-    {
-        desired_product = trackingFinances.products[0];
-    }
+   
 
-    public bool ShouldBuyProduct(float money, float greediness)
+    public bool ShouldBuyProduct(float money, float greediness, float productPrice)
     {
-        Assign();
-        float affordabilityFactor = money / desired_product.Price;
+        //Assign();
+        float affordabilityFactor = money / productPrice;
         float buyChance = (1 - greediness) * affordabilityFactor * Random.Range(0.5f, 1.5f);
         if (buyChance > 1.0f)
         {
