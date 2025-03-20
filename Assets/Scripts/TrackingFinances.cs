@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrackingFinances : MonoBehaviour
 {
-    private List<Product> products = new List<Product>();
+    public List<Product> products = new List<Product>();
 
     public void AddProduct(Product product)
     {
