@@ -10,7 +10,7 @@ public class Decision : MonoBehaviour
         desired_product = trackingFinances.products[0];
     }
     
-    public bool ShouldBuyProduct(float money, float price, float greediness)
+    public bool ShouldBuyProduct(float money, float greediness)
     {
         Assign();
         float affordabilityFactor = money / desired_product.Price;
