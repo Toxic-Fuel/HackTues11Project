@@ -839,7 +839,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.22401088, y: -0, z: -0, w: 0.97458667}
-  m_LocalPosition: {x: 9.03, y: 7.55, z: -12.45}
+  m_LocalPosition: {x: 4.94, y: 8.1, z: -23.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -889,6 +889,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6358223983416916343, guid: 918cb1b376f26464ca775fcd8268e0cf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc5abb4bfa2ae894a86899a5b48cd914, type: 2}
     - target: {fileID: 6832257905236860705, guid: 918cb1b376f26464ca775fcd8268e0cf, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
@@ -1256,6 +1260,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 6358223983416916343, guid: 918cb1b376f26464ca775fcd8268e0cf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc5abb4bfa2ae894a86899a5b48cd914, type: 2}
     - target: {fileID: 6832257905236860705, guid: 918cb1b376f26464ca775fcd8268e0cf, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
