@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    public WALLETSCRIPT.Wallet wallet;
+    public WALLETSCRIPT wallet;
     float greediness;
+    public float laziness;
     void Start()
     {
         wallet.AddMoney(Random.Range(1000, 5000));
         greediness = Random.Range(0.1f, 0.5f);
+        laziness = Random.Range(0.1f, 0.5f);
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class WALLETSCRIPT : MonoBehaviour
 {
-    public class Wallet
-    {
+   
 
         private float money = 0;
 
@@ -36,15 +35,9 @@ public class WALLETSCRIPT : MonoBehaviour
         }
     }
 
-    public Wallet robotWallet;
+    
 
-    void Start()
-    {
+   
 
-    }
+    
 
-    void GiveDailyMoney()
-    {
-
-    }
-}

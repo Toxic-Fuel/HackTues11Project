@@ -9,7 +9,7 @@ public class DeliveryLogic : MonoBehaviour
     public StoragePoint PutDownPlace;
     public string currentTask;
     public float Salary = 1000f;
-    public WALLETSCRIPT wallet;
+    public Human human;
 
     NavMeshAgent navAgent;
     void Start()
@@ -134,9 +134,16 @@ public class DeliveryLogic : MonoBehaviour
         }
 
         //starts coroutine again - needs a chance to rest
-        //wallet.robotWallet.AddMoney(Salary);
-        //Debug.Log(name+" has "+wallet.robotWallet.GetBalance()+"$");
-        StartCoroutine(Transfer(pickUpPoint, putDownPoint));
+        human.wallet.AddMoney(Salary);
+        //if(Random.Range(0, 1) > human.laziness)
+        //{
+           StartCoroutine(Transfer(pickUpPoint, putDownPoint));
+        //}
+        //else
+        //{
+        //    ChooseTask("FreeTime");
+        //}
+        
         yield return null;
 
         

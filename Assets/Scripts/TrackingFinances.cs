@@ -12,6 +12,10 @@ public class TrackingFinances : MonoBehaviour
         Debug.Log($"{product.ProductName} added to tracking.");
         Debug.Log($"{product.ProductName} price is {product.Price}.");
     }
+    public void ModifyProduct(int index, float newPrice)
+    {
+        products[index].Price = 
+    }
 
     void Start()
     {
