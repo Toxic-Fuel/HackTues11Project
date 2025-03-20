@@ -113,3 +113,4 @@ sysinfo.txt
 *.aab
 *.unitypackage
 *.app
+ProjectSettings/SceneTemplateSettings.json
