@@ -27,7 +27,11 @@ public class Bots : MonoBehaviour
                 borderPosition.z + borderScale.z / 2
             );
 
-            Vector3 randomPosition = new Vector3(randomX, botScale.y / 2, randomZ);
+            Vector3 randomPosition = new Vector3(
+                randomX - (botScale.x / 2),
+                botScale.y / 2,
+                randomZ - (botScale.z / 2)
+            );
 
             Instantiate(botPrefab, randomPosition, Quaternion.identity);
             Debug.Log(randomPosition);
