@@ -5,7 +5,7 @@ using UnityEngine;
 public class StoragePoint : MonoBehaviour
 {
     GameObject workerSlot;
-    List<GameObject> items = new List<GameObject>();
+    public List<GameObject> items = new List<GameObject>();
     // Start is called before the first frame update
     public GameObject GetWorker()
     {
@@ -13,14 +13,22 @@ public class StoragePoint : MonoBehaviour
     }
     public void AddItem(GameObject item)
     {
-        item.transform.parent = transform;
+        item.transform.parent = null;
         item.transform.position = new Vector3(transform.position.x , transform.position.y+2f, transform.position.z);
         items.Add(item);
+        if (item.GetComponent<Rigidbody>() != null)
+        {
+            item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
     }
     public void RemoveItem(GameObject item)
     {
         items.Remove(item);
         item.transform.parent = null;
+        if(item.GetComponent<Rigidbody>() != null)
+        {
+            item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
     public GameObject GetItem()
     {

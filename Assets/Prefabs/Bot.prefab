@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6358223983416916343}
   - component: {fileID: 3342908711295587821}
   - component: {fileID: 8986142826970251948}
+  - component: {fileID: 2370720761567139087}
+  - component: {fileID: 1824470539826709844}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Untagged
@@ -128,3 +130,32 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2370720761567139087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618297603643415139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0e027053eea7d479c20a0495c50765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickUpPlace: {fileID: 0}
+  PutDownPlace: {fileID: 0}
+  currentTask: Deliver
+  Salary: 1000
+  wallet: {fileID: 1824470539826709844}
+--- !u!114 &1824470539826709844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618297603643415139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4aaa19a46d21304597159bf5b3c950b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

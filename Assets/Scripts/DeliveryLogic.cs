@@ -8,10 +8,14 @@ public class DeliveryLogic : MonoBehaviour
     public StoragePoint PickUpPlace;
     public StoragePoint PutDownPlace;
     public string currentTask;
+    public float Salary = 1000f;
+    public WALLETSCRIPT wallet;
+
     NavMeshAgent navAgent;
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
+        ChooseTask(currentTask);
     }
     
     // Update is called once per frame
@@ -24,7 +28,7 @@ public class DeliveryLogic : MonoBehaviour
         switch (task)
         {
             case "Deliver":
-
+                Deliver();
                 break;
             case "FreeTime":
 
@@ -38,7 +42,8 @@ public class DeliveryLogic : MonoBehaviour
         List<StoragePoint> availablePickUpPoints = new List<StoragePoint>();
         List<StoragePoint> availableDropOffPoints = new List<StoragePoint>();
         GameObject[] ObjsContainingTagPickUp = GameObject.FindGameObjectsWithTag("pickup");
-        GameObject[] ObjsContainingTagDropOff = GameObject.FindGameObjectsWithTag("dropff");
+        GameObject[] ObjsContainingTagDropOff = GameObject.FindGameObjectsWithTag("dropoff");
+        
         //check if points are taken already
         foreach(GameObject obj in ObjsContainingTagPickUp)
         {
@@ -59,16 +64,22 @@ public class DeliveryLogic : MonoBehaviour
         //assign the 2 points
         PickUpPlace = availablePickUpPoints[Random.Range(0, availablePickUpPoints.Count)];
         PutDownPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
-
+        Debug.Log(name + " Filtered");
+        StartCoroutine(Transfer(PickUpPlace, PutDownPlace));
 
         
 
     }
+    void FreeTime()
+    {
+
+    }
     //Transfer process
-    private IEnumerable Transfer(StoragePoint pickUpPoint, StoragePoint putDownPoint)
+    private IEnumerator Transfer(StoragePoint pickUpPoint, StoragePoint putDownPoint)
     {
         //go to pickup point
-        navAgent.Move(pickUpPoint.gameObject.transform.position);
+        navAgent.SetDestination(pickUpPoint.gameObject.transform.position);
+        Debug.Log(name + " started moving to pickup");
         //don't continue until its close enough
         while (Vector3.Distance(pickUpPoint.gameObject.transform.position, gameObject.transform.position) >= (navAgent.stoppingDistance + 0.5))
         {
@@ -84,6 +95,7 @@ public class DeliveryLogic : MonoBehaviour
                 pickUpPoint.RemoveItem(grabbedItem);
                 grabbedItem.transform.parent = transform;
                 grabbedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+                Debug.Log(name+" picked up "+grabbedItem.name);
             }
             catch
             {
@@ -99,14 +111,15 @@ public class DeliveryLogic : MonoBehaviour
         }
         
         //go to put down point
-        navAgent.Move(putDownPoint.gameObject.transform.position);
+        navAgent.SetDestination(putDownPoint.gameObject.transform.position);
+        
 
         //don't continue until reached
         while (Vector3.Distance(putDownPoint.gameObject.transform.position, gameObject.transform.position) >= (navAgent.stoppingDistance + 0.5))
         {
             yield return null;
         }
-
+        Debug.Log(name+" reached drop point");
         //put down
         try 
         {
@@ -120,6 +133,10 @@ public class DeliveryLogic : MonoBehaviour
             yield break;
         }
 
+        //starts coroutine again - needs a chance to rest
+        //wallet.robotWallet.AddMoney(Salary);
+        //Debug.Log(name+" has "+wallet.robotWallet.GetBalance()+"$");
+        StartCoroutine(Transfer(pickUpPoint, putDownPoint));
         yield return null;
 
         
