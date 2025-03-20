@@ -6,6 +6,7 @@ public class WALLETSCRIPT : MonoBehaviour
 {
     public class Wallet
     {
+
         private float money = 0;
 
         public Wallet(float initialMoney = 0)
