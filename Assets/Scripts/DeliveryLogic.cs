@@ -56,8 +56,46 @@ public class DeliveryLogic : MonoBehaviour
                 availableDropOffPoints.Add(curStorage);
             }
         }
+        //assign the 2 points
         PickUpPlace = availablePickUpPoints[Random.Range(0, availablePickUpPoints.Count)];
         PutDownPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
+
+
+        
+
+    }
+    //Transfer process
+    private IEnumerable Transfer(StoragePoint pickUpPoint, StoragePoint putDownPoint)
+    {
+        //go to pickup point
+        navAgent.Move(pickUpPoint.gameObject.transform.position);
+        //don't continue until its close enough
+        while (Vector3.Distance(pickUpPoint.gameObject.transform.position, gameObject.transform.position) >= (navAgent.stoppingDistance + 0.5))
+        {
+            yield return null;
+        }
+        //grab item
+        GameObject grabbedItem;
+        if (pickUpPoint.GetItemCount() > 0)
+        {
+            grabbedItem = pickUpPoint.GetItem();
+            Debug.Log(name + " picked up an item");
+        }
+        else
+        {
+            Debug.Log("Pick up point has no items for: " + name);
+            yield break;
+        }
+        
+        //go to put down point
+        navAgent.Move(putDownPoint.gameObject.transform.position);
+
+        //don't continue until reached
+        while (Vector3.Distance(putDownPoint.gameObject.transform.position, gameObject.transform.position) >= (navAgent.stoppingDistance + 0.5))
+        {
+            yield return null;
+        }
+
 
 
 
