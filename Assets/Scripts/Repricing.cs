@@ -6,7 +6,7 @@ public class Repricing : MonoBehaviour
 {
     public void Reprice(float price, int numPurchases, float percentInflationPerPurchase)
     {
-
-        price *= 1 + (numPurchases * percentInflationPerPurchase);
+        float inflation = numPurchases * percentInflationPerPurchase;
+        price *= 1 + (inflation);
     }
 }
