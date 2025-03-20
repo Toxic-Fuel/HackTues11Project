@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Repricing : MonoBehaviour
 {
-    float chanceOfInflation = 0.5f;
+    public TrackingFinances tf;
+    float inflation = 0.5f;
     void Reprice()
     {
-
+        
     }
 
     // Start is called before the first frame update
