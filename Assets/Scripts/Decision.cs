@@ -6,31 +6,29 @@ public class Decision : MonoBehaviour
 {
     public TrackingFinances trackingFinances;
     Product desired_product;
-    void Assign(){
+
+    void Assign()
+    {
         desired_product = trackingFinances.products[0];
     }
-    
+
     public bool ShouldBuyProduct(float money, float greediness)
     {
         Assign();
         float affordabilityFactor = money / desired_product.Price;
         float buyChance = (1 - greediness) * affordabilityFactor * Random.Range(0.5f, 1.5f);
-        if (buyChance > 1.0f) {
+        if (buyChance > 1.0f)
+        {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
 
+    void Start() { }
 
-    void Start()
-    {
-    }
-
-
-    void Update()
-    {
-        
-    }
+    void Update() { }
 }
+    
