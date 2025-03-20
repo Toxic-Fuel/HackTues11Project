@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class DeliveryLogic : MonoBehaviour
 {
-    public GameObject PickUpPlace;
-    public GameObject PutDownPlace;
+    public StoragePoint PickUpPlace;
+    public StoragePoint PutDownPlace;
     public string currentTask;
     NavMeshAgent navAgent;
     void Start()
@@ -56,5 +56,11 @@ public class DeliveryLogic : MonoBehaviour
                 availableDropOffPoints.Add(curStorage);
             }
         }
+        PickUpPlace = availablePickUpPoints[Random.Range(0, availablePickUpPoints.Count)];
+        PutDownPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
+
+
+
+
     }
 }
