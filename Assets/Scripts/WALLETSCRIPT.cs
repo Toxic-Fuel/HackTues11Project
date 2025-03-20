@@ -9,12 +9,7 @@ public class WALLETSCRIPT : MonoBehaviour
 
         private float money = 0;
 
-        public Wallet(float initialMoney = 0)
-        {
-            money = initialMoney;
-        }
-
-        public void AddMoney(float amount)
+       public void AddMoney(float amount)
         {
             money += amount;
             Debug.Log("Robot received " + amount + ". New balance: " + money);
