@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 221170109}
   - component: {fileID: 221170108}
   - component: {fileID: 221170107}
+  - component: {fileID: 221170112}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: item
@@ -278,7 +279,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cabc5755a3b9b26499cadc9289bc16f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -323,6 +324,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221170112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221170106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1fde8b2470c8aa41ba24cc98bc2ec30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: Apple
 --- !u!1 &237717482
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +350,7 @@ GameObject:
   - component: {fileID: 237717485}
   - component: {fileID: 237717484}
   - component: {fileID: 237717483}
+  - component: {fileID: 237717488}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: item
@@ -411,7 +426,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fc9c45d07bf1a4d4bafde716ce8e4ad8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -456,6 +471,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &237717488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237717482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1fde8b2470c8aa41ba24cc98bc2ec30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: Globe
 --- !u!1 &326156203
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +497,7 @@ GameObject:
   - component: {fileID: 326156206}
   - component: {fileID: 326156205}
   - component: {fileID: 326156204}
+  - component: {fileID: 326156209}
   m_Layer: 0
   m_Name: Cube
   m_TagString: item
@@ -544,7 +573,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fc9c45d07bf1a4d4bafde716ce8e4ad8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -589,6 +618,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &326156209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326156203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1fde8b2470c8aa41ba24cc98bc2ec30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: Globe
 --- !u!1 &509161964
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1335,7 @@ GameObject:
   - component: {fileID: 1886819561}
   - component: {fileID: 1886819560}
   - component: {fileID: 1886819559}
+  - component: {fileID: 1886819564}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: item
@@ -1368,7 +1411,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dc5abb4bfa2ae894a86899a5b48cd914, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1413,6 +1456,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1886819564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886819558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1fde8b2470c8aa41ba24cc98bc2ec30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: Laptop
 --- !u!1001 &2064701092
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -104,16 +105,32 @@ public class DeliveryLogic : MonoBehaviour
         LandfillPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
         Debug.Log(name + " Filtered");
         Decision decision = new Decision();
-
-        
-        int index = Random.Range(0, trackingFinances.products.Count);
-        //decide if should buy
-        if(decision.ShouldBuyProduct(human.wallet.GetBalance(), human.greediness, trackingFinances.products[index].Price))
+        int index = -1;
+        try
         {
-            human.wallet.RemoveMoney(trackingFinances.products[index].Price);
-            trackingFinances.ModifyProduct(index, trackingFinances.products[index].Price, trackingFinances.products[index].NumberOfTimesSold + 1);
-            StartCoroutine(Transfer(ShopPlace, LandfillPlace, true));
+            index = ShopPlace.items[Random.Range(0, ShopPlace.items.Count)].GetComponent<Item>().GetIndex();
         }
+        catch
+        {
+            ChooseTask("Deliver");
+        }
+
+        //decide if should buy
+        if (index != -1)
+        {
+            if (decision.ShouldBuyProduct(human.wallet.GetBalance(), human.greediness, trackingFinances.products[index].Price))
+            {
+                human.wallet.RemoveMoney(trackingFinances.products[index].Price);
+                trackingFinances.ModifyProduct(index, trackingFinances.products[index].Price, trackingFinances.products[index].NumberOfTimesSold + 1);
+                StartCoroutine(Transfer(ShopPlace, LandfillPlace, true));
+            }
+            else
+            {
+                ChooseTask("Deliver");
+            }
+        }
+        
+        
         else
         {
             ChooseTask("Deliver");
@@ -189,7 +206,11 @@ public class DeliveryLogic : MonoBehaviour
         }
 
         //starts coroutine again - needs a chance to rest
-        human.wallet.AddMoney(Salary);
+        if (oneTimeOnly == false)
+        {
+            human.wallet.AddMoney(Salary);
+        }
+        
         if (oneTimeOnly)
         {
             ChooseTask("Deliver");
