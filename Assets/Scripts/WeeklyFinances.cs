@@ -26,6 +26,10 @@ public class WeeklyFinances : MonoBehaviour
         price *= 1 + (inflation);
         return price;
     }
+    public List<TrackingFinances> GetListOfRecords()
+    {
+        return TrackerRecord;
+    }
 
     // Update is called once per frame
     void Update()
@@ -36,8 +40,8 @@ public class WeeklyFinances : MonoBehaviour
             TrackerRecord.Add(newTf);
             for(int i=0; i < tf.products.Count; i++)
             {
-                Product tempProduct = tf.products[i];
-                tf.products[i] = new Product();
+                
+                tf.ModifyProduct(i, Reprice(tf.products[i].Price, tf.products[i].NumberOfTimesSold, inflationPercent));
             }
             
             DaysPassed++;
