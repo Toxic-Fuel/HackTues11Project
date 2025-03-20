@@ -14,7 +14,9 @@ public class TrackingFinances : MonoBehaviour
     }
     public void ModifyProduct(int index, float newPrice)
     {
-        products[index].Price = 
+        Product tempProduct = products[index];
+        tempProduct.Price = newPrice;
+        products[index] = tempProduct;
     }
 
     void Start()
