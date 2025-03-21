@@ -29,7 +29,7 @@ public class WeeklyFinances : MonoBehaviour
     {
         daySW.Start();
         wareHouse.Reload(dailyAmount, tf);
-        AveragePrices = new float[maxWeeks, tf.products.Count];
+        AveragePrices = new float[maxWeeks, 3];
 
     }
     public float Reprice(float price, float numPurchasesLastWeek, float numPurchases2Weeksago, float percentInflationPerPurchase)
@@ -46,7 +46,7 @@ public class WeeklyFinances : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(daySW.ElapsedMilliseconds >= dayLengthSeconds * 1000)
+        if(daySW.ElapsedMilliseconds >= dayLengthSeconds * 1000 && DaysPassed <= 49)
         {
             
             TrackingFinances newTf = tf.CloneViaFakeSerialization();
@@ -61,7 +61,15 @@ public class WeeklyFinances : MonoBehaviour
                         sumPrice = new float[tf.products.Count];
                     }
                     sumPrice[i] = statistics.getStatisticAvgPrice(i);
-                    AveragePrices[DaysPassed / 7, i] = sumPrice[i];
+                    try
+                    {
+                        AveragePrices[(DaysPassed / 7)-1, i] = sumPrice[i];
+                    }
+                    catch
+                    {
+                        UnityEngine.Debug.LogError("Index: " + i + " is out of array");
+                    }
+                    
                     UnityEngine.Debug.Log("The price for " + i + " is " + sumPrice[i]);
                     if (sumNumPurchases == null)
                     {
