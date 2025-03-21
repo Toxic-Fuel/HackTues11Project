@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Statistics : MonoBehaviour
 {
-    WeeklyFinances wf;
+    public WeeklyFinances wf;
     GameObject[] foundBots;
 
     public float overallMoney()
@@ -31,10 +31,19 @@ public class Statistics : MonoBehaviour
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    sum += wf.TrackerRecord[j].products[index].Price;
-                    return sum / wf.DaysPassed;
+                    try
+                    {
+                        sum += wf.TrackerRecord[j].products[index].Price;
+                    }
+                    catch
+                    {
+                        Debug.Log("Problem index: " + index + "On "+ i + " and "+j);
+                    }
+                    
+                    
                 }
             }
+            return sum / 7;
         }
         return -1;
     }
@@ -49,9 +58,10 @@ public class Statistics : MonoBehaviour
                 for (int j = 0; j < 7; j++)
                 {
                     sum += wf.TrackerRecord[j].products[index].NumberOfTimesSold;
-                    return sum / wf.DaysPassed;
+                    
                 }
             }
+            return sum / wf.DaysPassed;
         }
         return -1;
     }

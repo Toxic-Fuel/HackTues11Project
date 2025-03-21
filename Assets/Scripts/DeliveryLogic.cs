@@ -215,7 +215,7 @@ public class DeliveryLogic : MonoBehaviour
                 yield break;
             }
                 
-            yield break;
+            
         }
         
         //go to put down point
