@@ -10,6 +10,7 @@ public class EndGameUI : MonoBehaviour
     public WeeklyFinances wf;
     public int maxWeeks = 7;
     public SetAveragePriceText avgPriceScript;
+    public GameObject background;
 
     WeeklyFinances weeklyFinances;
     int currentItem = 0;
@@ -42,9 +43,11 @@ public class EndGameUI : MonoBehaviour
 
         }
         Debug.Log("History length"+History.Length);
+        background.SetActive(true);
         avgPriceScript.SetTexts();
         ShowPriceGraph(HistoryForProduct0);
         ShowSalesGraph(History);
+        
         
     }
 
@@ -52,7 +55,15 @@ public class EndGameUI : MonoBehaviour
     {
         for (int i = 0; i < maxWeeks; i++)
         {
-            graphPrice.AddDataPoint(i, priceHistory[i]);
+            if(i== maxWeeks - 1)
+            {
+                graphPrice.AddDataPoint(i, priceHistory[i-1]);
+            }
+            else
+            {
+                graphPrice.AddDataPoint(i, priceHistory[i]);
+            }
+            
         }
         
     }

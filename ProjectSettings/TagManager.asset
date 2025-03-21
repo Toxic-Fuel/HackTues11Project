@@ -9,6 +9,7 @@ TagManager:
   - shop
   - landfill
   - item
+  - Bot
   layers:
   - Default
   - TransparentFX

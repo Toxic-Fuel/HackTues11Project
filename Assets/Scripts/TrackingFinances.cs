@@ -17,14 +17,23 @@ public class TrackingFinances : MonoBehaviour
         Product tempProduct = products[index];
         tempProduct.Price = newPrice;
         tempProduct.NumberOfTimesSold = newSoldNum;
+        
         products[index] = tempProduct;
+        Debug.Log("Product " + index + " shoulde be " + newPrice + " but is " + products[index].Price + " intead");
     }
 
     void Start()
     {
+        Product globe = new Product
+        {
+            Price = 500f,
+            NumberOfTimesSold = 0,
+            ProductName = "Globe",
+        };
+        AddProduct(globe);
         Product laptop = new Product
         {
-            Price = 3000f,
+            Price = 1000f,
             NumberOfTimesSold = 0,
             ProductName = "Laptop",
         };
@@ -36,12 +45,6 @@ public class TrackingFinances : MonoBehaviour
             ProductName = "Apple",
         };
         AddProduct(apple);
-        Product globe = new Product
-        {
-            Price = 500f,
-            NumberOfTimesSold = 0,
-            ProductName = "Globe",
-        };
-        AddProduct(globe);
+        
     }
 }

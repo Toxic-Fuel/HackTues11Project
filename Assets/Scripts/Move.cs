@@ -14,6 +14,7 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        controller.transform.position = new Vector3(controller.transform.position.x, controller.transform.position.y + (Input.GetAxis("Fly") * speed), controller.transform.position.z);
+       
+        controller.Move(new Vector3(0, (Input.GetAxis("Fly") * speed), 0));
     }
 }
