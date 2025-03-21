@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System;
-using System.Reflection;
 
 namespace Adobe.Substance.Connector.Unity
 {
@@ -14,21 +14,25 @@ namespace Adobe.Substance.Connector.Unity
         private static readonly object InitializedLock = new object();
 
         static bool started = false;
-        static SubstanceConnectorEditor() {
+
+        static SubstanceConnectorEditor()
+        {
             AssemblyReloadEvents.beforeAssemblyReload += TearDown;
-            AssemblyReloadEvents.afterAssemblyReload += Setup; 
+            AssemblyReloadEvents.afterAssemblyReload += Setup;
             Setup();
         }
 
         private static ConcurrentQueue<ImportFileMessage> _ImportFiles;
 
-        private static Dictionary<string, string> _monitoredFiles = new Dictionary<string, string>();
+        private static Dictionary<string, string> _monitoredFiles =
+            new Dictionary<string, string>();
+
         private static void Setup()
         {
-            lock (InitializedLock) 
+            lock (InitializedLock)
             {
-                if(!started) {
-
+                if (!started)
+                {
                     Instance.Initialize();
                     Instance.OnImportFile += OnFileImportMessageReceived;
                     _ImportFiles = new ConcurrentQueue<ImportFileMessage>();
@@ -47,8 +51,10 @@ namespace Adobe.Substance.Connector.Unity
 
         static void TearDown()
         {
-            lock (InitializedLock) {
-                if(started){
+            lock (InitializedLock)
+            {
+                if (started)
+                {
                     Instance.Shutdown();
                     Instance.OnImportFile -= OnFileImportMessageReceived;
                     EditorApplication.update -= Update;
@@ -57,12 +63,11 @@ namespace Adobe.Substance.Connector.Unity
                 }
             }
         }
-        
 
         static void Update()
         {
             while (_ImportFiles.TryDequeue(out ImportFileMessage importMessage))
-            {              
+            {
                 HandleImportMessage(importMessage);
             }
         }
@@ -72,6 +77,7 @@ namespace Adobe.Substance.Connector.Unity
             Instance.Shutdown();
             Instance.SignalApplicationShutdown();
         }
+
         private static void HandleImportMessage(ImportFileMessage importMessage)
         {
             var importPath = Path.GetFullPath(importMessage.path);
@@ -79,7 +85,10 @@ namespace Adobe.Substance.Connector.Unity
 
             var destFolder = GetCurrentDestinationFolder();
             var destFullPath = Path.Combine(Path.GetFullPath(destFolder), importFileName);
-            var destRelativePath = Path.Combine("Assets/", Path.GetRelativePath(UnityEngine.Application.dataPath, destFullPath));
+            var destRelativePath = Path.Combine(
+                "Assets/",
+                Path.GetRelativePath(UnityEngine.Application.dataPath, destFullPath)
+            );
 
             if (!File.Exists(importPath))
             {
@@ -97,9 +106,16 @@ namespace Adobe.Substance.Connector.Unity
             }
         }
 
-        private static void ImportNewFile(string importPath, string destFullPath, string messageUUID)
+        private static void ImportNewFile(
+            string importPath,
+            string destFullPath,
+            string messageUUID
+        )
         {
-            var destRelativePath = Path.Combine("Assets/", Path.GetRelativePath(UnityEngine.Application.dataPath, destFullPath));
+            var destRelativePath = Path.Combine(
+                "Assets/",
+                Path.GetRelativePath(UnityEngine.Application.dataPath, destFullPath)
+            );
 
             File.Copy(importPath, destFullPath, true);
 
@@ -110,9 +126,17 @@ namespace Adobe.Substance.Connector.Unity
             _monitoredFiles.Add(messageUUID, unityGUID);
         }
 
-        private static void ImportExistingFile(string importPath, string destFullPath, string unityGUID, string messageUUID)
+        private static void ImportExistingFile(
+            string importPath,
+            string destFullPath,
+            string unityGUID,
+            string messageUUID
+        )
         {
-            var destRelativePath = Path.Combine("Assets/", Path.GetRelativePath(Application.dataPath, destFullPath));
+            var destRelativePath = Path.Combine(
+                "Assets/",
+                Path.GetRelativePath(Application.dataPath, destFullPath)
+            );
 
             // Update current asset.
             var assetPath = AssetDatabase.GUIDToAssetPath(unityGUID);
@@ -126,7 +150,9 @@ namespace Adobe.Substance.Connector.Unity
                 if (NormalizePath(assetPath).Equals(NormalizePath(destRelativePath)))
                     return;
 
-                var assetRelativeDest = Path.GetFileName(Path.GetRelativePath(Application.dataPath, destFullPath));
+                var assetRelativeDest = Path.GetFileName(
+                    Path.GetRelativePath(Application.dataPath, destFullPath)
+                );
 
                 var result = AssetDatabase.RenameAsset(assetPath, assetRelativeDest);
                 AssetDatabase.Refresh();
@@ -140,7 +166,7 @@ namespace Adobe.Substance.Connector.Unity
                 ImportNewFile(importPath, destFullPath, messageUUID);
             }
         }
-    
+
         private static string GetCurrentDestinationFolder()
         {
             string path;
@@ -152,16 +178,16 @@ namespace Adobe.Substance.Connector.Unity
 
             var obj = Selection.activeObject;
 
-            if (obj == null) 
+            if (obj == null)
                 return UnityEngine.Application.dataPath;
-            else 
+            else
                 path = AssetDatabase.GetAssetPath(obj.GetInstanceID());
 
             if (path.Length == 0)
                 return UnityEngine.Application.dataPath;
 
             return Directory.Exists(path) ? path : Path.GetDirectoryName(path);
-        }    
+        }
 
         private static string NormalizePath(string path)
         {
@@ -171,9 +197,12 @@ namespace Adobe.Substance.Connector.Unity
         // Define this function somewhere in your editor class to make a shortcut to said hidden function
         private static bool TryGetActiveFolderPath(out string path)
         {
-            var _tryGetActiveFolderPath = typeof(ProjectWindowUtil).GetMethod("TryGetActiveFolderPath", BindingFlags.Static | BindingFlags.NonPublic);
+            var _tryGetActiveFolderPath = typeof(ProjectWindowUtil).GetMethod(
+                "TryGetActiveFolderPath",
+                BindingFlags.Static | BindingFlags.NonPublic
+            );
 
-            if (_tryGetActiveFolderPath == null) 
+            if (_tryGetActiveFolderPath == null)
             {
                 path = null;
                 return false;
@@ -185,6 +214,5 @@ namespace Adobe.Substance.Connector.Unity
 
             return found;
         }
-
     }
 }
