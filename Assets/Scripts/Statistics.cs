@@ -7,7 +7,7 @@ public class Statistics : MonoBehaviour
 {
     public WeeklyFinances wf;
     GameObject[] foundBots;
-
+    int week = 0;
     public float overallMoney()
     {
         float sum = 0;
@@ -27,17 +27,17 @@ public class Statistics : MonoBehaviour
         float sum = 0;
         if (wf.DaysPassed % 7 == 0)
         {
-            for (int i = 0; i < (wf.DaysPassed / 7); i++)
+            for (int i = 1; i < (wf.DaysPassed / 7); i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
                     try
                     {
-                        sum += wf.TrackerRecord[j].products[index].Price;
+                        sum += wf.TrackerRecord[j*i].products[index].Price;
                     }
                     catch
                     {
-                        Debug.Log("Problem index: " + index + "On "+ i + " and "+j);
+                        Debug.LogError("Problem index: " + index + "On "+ i + " and "+j);
                     }
                     
                     

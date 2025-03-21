@@ -5,31 +5,65 @@ using UnityEngine;
 
 public class EndGameUI : MonoBehaviour
 {
-    Graph graph;
+    public Graph graphPrice;
+    public Graph graphSold;
+    public WeeklyFinances wf;
+    public int maxWeeks = 7;
+    public SetAveragePriceText avgPriceScript;
 
-    public void EndGame(List<float> priceHistory, List<int> salesHistory)
+    WeeklyFinances weeklyFinances;
+    int currentItem = 0;
+    bool Done = false;
+    private void Start()
     {
-        GameObject EndGameCanvas = Resources.Load<GameObject>("Canvas");
-        GameObject newInstance = Instantiate(EndGameCanvas, Vector3.zero, Quaternion.identity);
-
-
-        ShowPriceGraph(priceHistory);
-        ShowSalesGraph(salesHistory);
+        weeklyFinances = wf;
     }
-
-    private void ShowPriceGraph(List<float> priceHistory)
+    public void Update()
     {
-        for (int i = 0; i < priceHistory.Count; i++)
+        if(weeklyFinances.DaysPassed >= 49 && Done==false)
         {
-            graph.AddDataPoint(i, priceHistory[i]);
+            EndGame();
+            Done = true;
         }
     }
-
-    private void ShowSalesGraph(List<int> salesHistory)
+    public void EndGame()
     {
-        for (int i = 0; i < salesHistory.Count; i++)
+        
+        float[,] History = new float[maxWeeks, 2];
+        float[] HistoryForProduct0 = new float[maxWeeks*7];
+        
+        //GameObject newInstance = Instantiate(EndGameCanvas, Vector3.zero, Quaternion.identity);
+        for(int i=1; i<=maxWeeks; i++)
         {
-            graph.AddDataPoint(i, salesHistory[i]);
+           for(int j=0; j<7; j++)
+            {
+                HistoryForProduct0[i * j] = weeklyFinances.TrackerRecord[j * i].products[currentItem].Price;
+            }
+            //History[i,0] = wf.AveragePrices[i, 0];
+            //History[i, 1] = statistics.getStatisticAvgSells(i);
+
+        }
+        Debug.Log("History length"+History.Length);
+        avgPriceScript.SetTexts();
+        ShowPriceGraph(HistoryForProduct0);
+        ShowSalesGraph(History);
+        
+    }
+
+    private void ShowPriceGraph(float[] priceHistory)
+    {
+        for (int i = 0; i < maxWeeks*7; i++)
+        {
+            graphPrice.AddDataPoint(i, priceHistory[i]);
+        }
+        
+    }
+
+    private void ShowSalesGraph(float[,] salesHistory)
+    {
+        for (int i = 0; i < maxWeeks / 7; i++)
+        {
+            graphSold.AddDataPoint(i, salesHistory[i, 1]);
         }
     }
 }

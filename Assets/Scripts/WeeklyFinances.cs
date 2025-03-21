@@ -11,12 +11,14 @@ public class WeeklyFinances : MonoBehaviour
 {
     public TrackingFinances tf;
     public List<TrackingFinances> TrackerRecord;
+    public float[,] AveragePrices;
     public int DaysPassed = 1;
     public float dayLengthSeconds = 10f;
     public float inflationPercent = 0.1f;
     public Statistics statistics;
     public WareHouse wareHouse;
     public int dailyAmount = 3;
+    public int maxWeeks = 7;
     Stopwatch daySW = new Stopwatch();
     float[] sumPrice;
     float[] sumNumPurchases;
@@ -27,13 +29,14 @@ public class WeeklyFinances : MonoBehaviour
     {
         daySW.Start();
         wareHouse.Reload(dailyAmount, tf);
+        AveragePrices = new float[maxWeeks, tf.products.Count];
 
     }
     public float Reprice(float price, float numPurchasesLastWeek, float numPurchases2Weeksago, float percentInflationPerPurchase)
     {
         float inflation = (numPurchasesLastWeek- numPurchases2Weeksago) * percentInflationPerPurchase;
-        price *= 1 + (inflation);
-        return price;
+        float fprice = price * (1 + (inflation));
+        return fprice;
     }
     public List<TrackingFinances> GetListOfRecords()
     {
@@ -58,7 +61,8 @@ public class WeeklyFinances : MonoBehaviour
                         sumPrice = new float[tf.products.Count];
                     }
                     sumPrice[i] = statistics.getStatisticAvgPrice(i);
-
+                    AveragePrices[DaysPassed / 7, i] = sumPrice[i];
+                    UnityEngine.Debug.Log("The price for " + i + " is " + sumPrice[i]);
                     if (sumNumPurchases == null)
                     {
                         sumNumPurchases = new float[tf.products.Count];
@@ -71,6 +75,8 @@ public class WeeklyFinances : MonoBehaviour
                     }
                     sumNumPurchases[i] = statistics.getStatisticAvgSells(i);
                     
+
+
                 }
                 
                 if(DaysPassed >= 14)
@@ -81,6 +87,7 @@ public class WeeklyFinances : MonoBehaviour
                         tf.ModifyProduct(i, Reprice(tf.products[i].Price, sumNumPurchases[i]/7, sumLastPurchases[i]/7,inflationPercent), tf.products[i].NumberOfTimesSold);
                         UnityEngine.Debug.Log("New price for "+ tf.products[i].ProductName + " is "+ tf.products[i].Price);
                     }
+                    
                 }
                 
             }

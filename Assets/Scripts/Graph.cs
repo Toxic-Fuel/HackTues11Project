@@ -8,7 +8,7 @@ public class Graph : MonoBehaviour
     public UILineRenderer lineRenderer;
     public RectTransform graphPanel;
     public float maxPrice;
-    public int maxDays;
+    int maxDays = 49;
 
     private List<Vector2> graphPoints = new List<Vector2>();
 
@@ -23,6 +23,7 @@ public class Graph : MonoBehaviour
         x -= panelWidth / 2f;
         y -= panelHeight / 2f;
         graphPoints.Add(new Vector2(x, y));
+        Debug.Log("Will enter " + revenue + " on day " + day);
         UpdateGraph();
     }
 
