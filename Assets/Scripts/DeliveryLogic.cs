@@ -14,6 +14,8 @@ public class DeliveryLogic : MonoBehaviour
     public float Salary = 1000f;
     public Human human;
     public TrackingFinances trackingFinances;
+    public bool DebugMovement = false;
+    public AboveHeadText aboveHeadText;
 
     NavMeshAgent navAgent;
     void Start()
@@ -30,10 +32,11 @@ public class DeliveryLogic : MonoBehaviour
     }
     void ChooseTask(string task)
     {
+        aboveHeadText.UpdateText(task);
         switch (task)
         {
             case "Deliver":
-                Deliver();
+                Deliver();            
                 break;
             case "FreeTime":
                 FreeTime();
@@ -69,7 +72,8 @@ public class DeliveryLogic : MonoBehaviour
         //assign the 2 points
         PickUpPlace = availablePickUpPoints[Random.Range(0, availablePickUpPoints.Count)];
         PutDownPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
-        Debug.Log(name + " Filtered");
+        if (DebugMovement) { Debug.Log(name + " Filtered"); }
+        
         StartCoroutine(Transfer(PickUpPlace, PutDownPlace, false));
 
         
@@ -103,22 +107,28 @@ public class DeliveryLogic : MonoBehaviour
         //assign the 2 points
         ShopPlace = availableShopPoints[Random.Range(0, availableShopPoints.Count)];
         LandfillPlace = availableDropOffPoints[Random.Range(0, availableDropOffPoints.Count)];
-        Debug.Log(name + " Filtered");
-        Decision decision = new Decision();
+        if (DebugMovement)
+        { Debug.Log(name + " Filtered"); }
+        
         int index = -1;
         try
         {
-            index = ShopPlace.items[Random.Range(0, ShopPlace.items.Count)].GetComponent<Item>().GetIndex();
+            if(ShopPlace.items.Count > 0)
+            {
+                index = ShopPlace.items[Random.Range(0, ShopPlace.items.Count)].GetComponent<Item>().GetIndex();
+            }
+            
         }
         catch
         {
             ChooseTask("Deliver");
+
         }
 
         //decide if should buy
         if (index != -1)
         {
-            if (decision.ShouldBuyProduct(human.wallet.GetBalance(), human.greediness, trackingFinances.products[index].Price))
+            if (ShouldBuyProduct(human.wallet.GetBalance(), human.greediness, trackingFinances.products[index].Price))
             {
                 human.wallet.RemoveMoney(trackingFinances.products[index].Price);
                 trackingFinances.ModifyProduct(index, trackingFinances.products[index].Price, trackingFinances.products[index].NumberOfTimesSold + 1);
@@ -142,7 +152,10 @@ public class DeliveryLogic : MonoBehaviour
     {
         //go to pickup point
         navAgent.SetDestination(pickUpPoint.gameObject.transform.position);
-        Debug.Log(name + " started moving to pickup");
+        if (DebugMovement)
+        {
+            Debug.Log(name + " started moving to pickup");
+        }
         //don't continue until its close enough
         while (Vector3.Distance(pickUpPoint.gameObject.transform.position, gameObject.transform.position) >= (navAgent.stoppingDistance + 0.5))
         {
@@ -158,25 +171,48 @@ public class DeliveryLogic : MonoBehaviour
                 pickUpPoint.RemoveItem(grabbedItem);
                 grabbedItem.transform.parent = transform;
                 grabbedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
-                Debug.Log(name+" picked up "+grabbedItem.name);
+                if (DebugMovement)
+                {
+                    if (DebugMovement)
+                    {
+                        Debug.Log(name + " picked up " + grabbedItem.name);
+                    }
+                }
             }
             catch
             {
-                Debug.Log("Unsuccessful grab for " + name);
+                if (DebugMovement)
+                {
+                    if (DebugMovement)
+                    {
+                        Debug.Log("Unsuccessful grab for " + name);
+                    }
+                }
                 yield break;
             }
-            Debug.Log(name + " picked up an item");
+            if (DebugMovement)
+            {
+                Debug.Log(name + " picked up an item");
+            }
         }
         else
         {
-            Debug.Log("Pick up point has no items for: " + name);
+            if (DebugMovement)
+            {
+                if (DebugMovement)
+                {
+                    Debug.Log("Pick up point has no items for: " + name);
+                }
+            }
             if (oneTimeOnly)
             {
                 ChooseTask("Deliver");
+                yield break;
             }
             else
             {
                 ChooseTask("FreeTime");
+                yield break;
             }
                 
             yield break;
@@ -191,7 +227,13 @@ public class DeliveryLogic : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log(name+" reached drop point");
+        if (DebugMovement)
+        {
+            if (DebugMovement)
+            {
+                Debug.Log(name + " reached drop point");
+            }
+        }
         //put down
         try 
         {
@@ -201,7 +243,10 @@ public class DeliveryLogic : MonoBehaviour
         {
             grabbedItem.transform.parent = null;
             grabbedItem = null;
-            Debug.Log("Bot " + name + " failed at dropping");
+            if (DebugMovement)
+            {
+                Debug.Log("Bot " + name + " failed at dropping");
+            }
             yield break;
         }
 
@@ -214,6 +259,7 @@ public class DeliveryLogic : MonoBehaviour
         if (oneTimeOnly)
         {
             ChooseTask("Deliver");
+            yield break;
         }
         if(Random.Range(0, 1) > human.laziness)
         {
@@ -222,6 +268,7 @@ public class DeliveryLogic : MonoBehaviour
         else
         {
            ChooseTask("FreeTime");
+            yield break;
         }
         
         yield return null;
@@ -234,5 +281,20 @@ public class DeliveryLogic : MonoBehaviour
 
 
 
+    }
+
+    public bool ShouldBuyProduct(float money, float greediness, float productPrice)
+    {
+        //Assign();
+        float affordabilityFactor = money / productPrice;
+        float buyChance = (1 - greediness) * affordabilityFactor * Random.Range(0.5f, 1.5f);
+        if (buyChance > 1.0f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

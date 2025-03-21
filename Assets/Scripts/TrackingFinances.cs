@@ -24,7 +24,7 @@ public class TrackingFinances : MonoBehaviour
     {
         Product laptop = new Product
         {
-            Price = 6000f,
+            Price = 3000f,
             NumberOfTimesSold = 0,
             ProductName = "Laptop",
         };
