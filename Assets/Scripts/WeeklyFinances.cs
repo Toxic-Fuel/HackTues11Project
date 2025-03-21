@@ -26,7 +26,8 @@ public class WeeklyFinances : MonoBehaviour
     void Start()
     {
         daySW.Start();
-        
+        wareHouse.Reload(dailyAmount, tf);
+
     }
     public float Reprice(float price, float numPurchasesLastWeek, float numPurchases2Weeksago, float percentInflationPerPurchase)
     {
