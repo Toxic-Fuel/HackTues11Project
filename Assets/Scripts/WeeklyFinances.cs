@@ -26,7 +26,8 @@ public class WeeklyFinances : MonoBehaviour
     void Start()
     {
         daySW.Start();
-        
+        wareHouse.Reload(dailyAmount, tf);
+
     }
     public float Reprice(float price, float numPurchasesLastWeek, float numPurchases2Weeksago, float percentInflationPerPurchase)
     {
@@ -44,12 +45,13 @@ public class WeeklyFinances : MonoBehaviour
     {
         if(daySW.ElapsedMilliseconds >= dayLengthSeconds * 1000)
         {
-            wareHouse.Reload(dailyAmount, tf);
+            
             TrackingFinances newTf = tf.CloneViaFakeSerialization();
             TrackerRecord.Add(newTf);
             if (DaysPassed % 7 == 0 )
             {
-                for(int i=0; i<tf.products.Count; i++)
+                wareHouse.Reload(dailyAmount, tf);
+                for (int i=0; i<tf.products.Count; i++)
                 {
                     if (sumPrice == null)
                     {
