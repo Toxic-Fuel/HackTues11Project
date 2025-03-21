@@ -30,15 +30,13 @@ public class EndGameUI : MonoBehaviour
     {
         
         float[,] History = new float[maxWeeks, 2];
-        float[] HistoryForProduct0 = new float[maxWeeks*7];
+        float[] HistoryForProduct0 = new float[maxWeeks];
         
         //GameObject newInstance = Instantiate(EndGameCanvas, Vector3.zero, Quaternion.identity);
-        for(int i=1; i<=maxWeeks; i++)
+        for(int i=0; i<maxWeeks; i++)
         {
-           for(int j=0; j<7; j++)
-            {
-                HistoryForProduct0[i * j] = weeklyFinances.TrackerRecord[j * i].products[currentItem].Price;
-            }
+
+            HistoryForProduct0[i] = weeklyFinances.AveragePrices[i, 0];
             //History[i,0] = wf.AveragePrices[i, 0];
             //History[i, 1] = statistics.getStatisticAvgSells(i);
 
@@ -52,7 +50,7 @@ public class EndGameUI : MonoBehaviour
 
     private void ShowPriceGraph(float[] priceHistory)
     {
-        for (int i = 0; i < maxWeeks*7; i++)
+        for (int i = 0; i < maxWeeks; i++)
         {
             graphPrice.AddDataPoint(i, priceHistory[i]);
         }

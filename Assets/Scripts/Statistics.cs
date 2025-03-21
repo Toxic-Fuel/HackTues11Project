@@ -27,21 +27,20 @@ public class Statistics : MonoBehaviour
         float sum = 0;
         if (wf.DaysPassed % 7 == 0)
         {
-            for (int i = 1; i < (wf.DaysPassed / 7); i++)
+            for (int i = 6; i >= 0; i--)
             {
-                for (int j = 0; j < 7; j++)
-                {
+               
                     try
                     {
-                        sum += wf.TrackerRecord[j*i].products[index].Price;
+                        sum += wf.TrackerRecord[i+((wf.DaysPassed/7 - 1)*7)].products[index].Price;
                     }
                     catch
                     {
-                        Debug.LogError("Problem index: " + index + "On "+ i + " and "+j);
+                        Debug.LogError("Problem index: " + index + "On "+ i);
                     }
                     
                     
-                }
+                
             }
             return sum / 7;
         }
