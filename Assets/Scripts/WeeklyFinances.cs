@@ -44,12 +44,13 @@ public class WeeklyFinances : MonoBehaviour
     {
         if(daySW.ElapsedMilliseconds >= dayLengthSeconds * 1000)
         {
-            wareHouse.Reload(dailyAmount, tf);
+            
             TrackingFinances newTf = tf.CloneViaFakeSerialization();
             TrackerRecord.Add(newTf);
             if (DaysPassed % 7 == 0 )
             {
-                for(int i=0; i<tf.products.Count; i++)
+                wareHouse.Reload(dailyAmount, tf);
+                for (int i=0; i<tf.products.Count; i++)
                 {
                     if (sumPrice == null)
                     {
