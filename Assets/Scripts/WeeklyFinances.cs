@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ public class WeeklyFinances : MonoBehaviour
             for(int i=0; i < tf.products.Count; i++)
             {
                 
-                tf.ModifyProduct(i, Reprice(tf.products[i].Price, tf.products[i].NumberOfTimesSold, inflationPercent));
+                tf.ModifyProduct(i, Reprice(tf.products[i].Price, tf.products[i].NumberOfTimesSold, inflationPercent), tf.products[i].NumberOfTimesSold);
             }
             
             DaysPassed++;

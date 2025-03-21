@@ -5,7 +5,7 @@ using UnityEngine;
 public class Human : MonoBehaviour
 {
     public WALLETSCRIPT wallet;
-    float greediness;
+    public float greediness;
     public float laziness;
     void Start()
     {

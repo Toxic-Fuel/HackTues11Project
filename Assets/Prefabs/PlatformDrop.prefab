@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 2500789886482395163}
   - component: {fileID: 6693725015106276696}
   - component: {fileID: 3712638897807762411}
+  - component: {fileID: 8817541845315679441}
   m_Layer: 0
   m_Name: PlatformDrop
   m_TagString: dropoff
@@ -543,3 +544,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
+--- !u!114 &8817541845315679441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924204783423512540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e023aaf68f4db14fa598ef047b4d07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stand: {fileID: 0}

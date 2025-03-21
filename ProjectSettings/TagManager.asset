@@ -6,6 +6,9 @@ TagManager:
   tags:
   - pickup
   - dropoff
+  - shop
+  - landfill
+  - item
   layers:
   - Default
   - TransparentFX
