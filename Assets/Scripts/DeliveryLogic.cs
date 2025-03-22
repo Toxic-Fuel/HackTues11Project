@@ -169,7 +169,7 @@ public class DeliveryLogic : MonoBehaviour
             {
                 pickUpPoint.RemoveItem(grabbedItem);
                 grabbedItem.transform.parent = transform;
-                grabbedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+                grabbedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
                 if (DebugMovement)
                 {
                     if (DebugMovement)
