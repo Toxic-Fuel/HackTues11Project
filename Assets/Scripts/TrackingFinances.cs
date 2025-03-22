@@ -24,13 +24,13 @@ public class TrackingFinances : MonoBehaviour
 
     void Start()
     {
-        Product globe = new Product
+        Product watch = new Product
         {
             Price = 500f,
             NumberOfTimesSold = 0,
-            ProductName = "Globe",
+            ProductName = "Watch",
         };
-        AddProduct(globe);
+        AddProduct(watch);
         Product laptop = new Product
         {
             Price = 1000f,
@@ -40,7 +40,7 @@ public class TrackingFinances : MonoBehaviour
         AddProduct(laptop);
         Product apple = new Product
         {
-            Price = 10f,
+            Price = 100f,
             NumberOfTimesSold = 0,
             ProductName = "Apple",
         };

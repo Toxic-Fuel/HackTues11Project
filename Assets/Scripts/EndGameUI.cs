@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class EndGameUI : MonoBehaviour
 {
-    public Graph graphPrice;
+    public Graph[] graphPrice;
     public Graph graphSold;
     public WeeklyFinances wf;
     public int maxWeeks = 7;
     public SetAveragePriceText avgPriceScript;
     public GameObject background;
-
+    public int ProductToShow = 0;
     WeeklyFinances weeklyFinances;
-    int currentItem = 0;
+    public int currentItem = 0;
     bool Done = false;
     private void Start()
     {
@@ -29,7 +29,8 @@ public class EndGameUI : MonoBehaviour
     }
     public void EndGame()
     {
-        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         float[,] History = new float[maxWeeks, 2];
         float[] HistoryForProduct0 = new float[maxWeeks];
         
@@ -37,7 +38,7 @@ public class EndGameUI : MonoBehaviour
         for(int i=0; i<maxWeeks; i++)
         {
 
-            HistoryForProduct0[i] = weeklyFinances.AveragePrices[i, 0];
+            HistoryForProduct0[i] = weeklyFinances.AveragePrices[i, ProductToShow];
             //History[i,0] = wf.AveragePrices[i, 0];
             //History[i, 1] = statistics.getStatisticAvgSells(i);
 
@@ -57,11 +58,11 @@ public class EndGameUI : MonoBehaviour
         {
             if(i== maxWeeks - 1)
             {
-                graphPrice.AddDataPoint(i, priceHistory[i-1]);
+                graphPrice[currentItem].AddDataPoint(i, priceHistory[i-1]);
             }
             else
             {
-                graphPrice.AddDataPoint(i, priceHistory[i]);
+                graphPrice[currentItem].AddDataPoint(i, priceHistory[i]);
             }
             
         }
